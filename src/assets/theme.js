@@ -25,10 +25,18 @@ const theme = {
     muted: "#f6f6f6",
   },
   text: {
+    default: {
+      color: 'text',
+      fontSize: 3,
+    },
+    caps: {
+      textTransform: 'uppercase',
+      letterSpacing: '0.2em',
+    },
     heading: {
-      fontFamily: "heading",
-      lineHeight: "heading",
-      fontWeight: "heading",
+      fontFamily: 'heading',
+      fontWeight: 'heading',
+      lineHeight: 'heading',
     },
   },
   styles: {

@@ -2,20 +2,22 @@ import React, { useContext } from "react";
 
 import { Button, Grid, Container, Select, Heading } from "theme-ui";
 import { observer } from "mobx-react-lite";
-import { playerStoreContext } from "../stores/index";
+import {isObservable} from "mobx"
 
+import { PlayerStoreContext } from "../stores";
 import pokemons from "../assets/pokemon";
+import { getResults } from "./helpers";
 
-const Battle = observer(() => {
-  const playerStore = useContext(playerStoreContext);
+export interface BattleProps {}
 
+const Battle: React.SFC<BattleProps> = observer(() => {
+  const playerStore = useContext(PlayerStoreContext);
   return (
-    <Container p={5} bg="muted">
       <Grid>
         <Heading>Player 1</Heading>
         <Select
           id="player1"
-          onChange={(e) => (playerStore.player1 = e.target.value)}
+          onChange={(e) => playerStore.setPlayer1(e.target.value)}
         >
           {pokemons.map((pokemon) => {
             return (
@@ -32,7 +34,7 @@ const Battle = observer(() => {
         <Heading>Player 2</Heading>
         <Select
           id="player2"
-          onChange={(e) => (playerStore.player2 = e.target.value)}
+          onChange={(e) => (playerStore.setPlayer2(e.target.value))}
         >
           {pokemons.map((pokemon) => {
             return (
@@ -46,9 +48,15 @@ const Battle = observer(() => {
             );
           })}
         </Select>
-        <Button onClick={() => console.log(playerStore)}>Fight!</Button>
+        <Button
+          onClick={() => getResults(playerStore)}
+        >
+          Fight!
+        </Button>
+        <button onClick={()=> playerStore.setPlayer1("charmander")}>Choose charmander for player1</button>
+        <button onClick={()=> console.log(playerStore, isObservable(playerStore.player1))}>show store</button>
       </Grid>
-    </Container>
+
   );
 });
 

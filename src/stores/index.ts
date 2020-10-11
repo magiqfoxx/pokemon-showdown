@@ -1,9 +1,4 @@
-import { observable } from "mobx";
 import { createContext } from "react";
+import { PlayerStore } from "./PlayerStore";
 
-class PlayerStore {
-  @observable player1 = "";
-  @observable player2 = "";
-}
-
-export const playerStoreContext = createContext(new PlayerStore());
+export const PlayerStoreContext = createContext(new PlayerStore());
