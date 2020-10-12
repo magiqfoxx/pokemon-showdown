@@ -1,4 +1,4 @@
-import { Pokemon } from "../stores/PlayerStore";
+import { Pokemon } from "../stores/DataStore";
 import {example} from "../assets/example";
 import { toJS } from 'mobx';
 
@@ -20,7 +20,7 @@ const getNewPokemon = (data: any) => {
   return newPokemon;
 };
 export const getResults = async (store: any) => {
-  const urls = [`https://pokeapi.co/api/v2/pokemon/${store.player1}`,`https://pokeapi.co/api/v2/pokemon/${store.player2}` ];
+  const urls = [`https://pokeapi.co/api/v2/pokemon/${store.red}`,`https://pokeapi.co/api/v2/pokemon/${store.blue}` ];
   const promises = urls.map(url=>fetch(url));
   Promise.all(promises)
   .then(results => {
@@ -28,8 +28,8 @@ export const getResults = async (store: any) => {
       const attack1 = toJS(store.pokemons)[0].stats.find((stat:any)=> stat.name ==="attack").base_stat;
       const attack2 = toJS(store.pokemons)[1].stats.find((stat:any)=> stat.name ==="attack").base_stat;
       store.setWinner(attack1 > attack2 ? store.pokemons[0].name : store.pokemons[1].name);
-    });
-  });
+    }).catch(error=>store.setError(error));
+  }).catch(error=>store.setError(error));
 };
 export const setResults = (store: any) => {
   store.setPokemon1(getNewPokemon(example));

@@ -18,11 +18,12 @@ export interface Pokemon {
   weight: string;
 }
 
-export class PlayerStore {
-  @observable player1: string = "bulbasaur";
-  @observable player2: string = "ivysaur";
+export class DataStore {
+  @observable red: string = "bulbasaur";
+  @observable blue: string = "ivysaur";
   @observable pokemons: Array<Pokemon> | [] = [];
   @observable winner: string = "";
+  @observable error: string = "";
 
 
   constructor() {
@@ -30,13 +31,13 @@ export class PlayerStore {
   }
 
   @action
-  setPlayer1 = (player1: string) => {
-    this.player1 = player1;
+  setRed = (red: string) => {
+    this.red = red;
   };
 
   @action
-  setPlayer2 = (player2: string) => {
-    this.player2 = player2;
+  setBlue = (blue: string) => {
+    this.blue = blue;
   };
 
     @action
@@ -46,5 +47,9 @@ export class PlayerStore {
   @action
   setWinner = (pokemon: string) => {
     this.winner = pokemon;
+  };
+  @action
+  setError = (error: string) => {
+    this.error = error;
   };
 }

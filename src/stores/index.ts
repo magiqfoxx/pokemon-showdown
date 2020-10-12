@@ -1,4 +1,4 @@
 import { createContext } from "react";
-import { PlayerStore } from "./PlayerStore";
+import { DataStore } from "./DataStore";
 
-export const PlayerStoreContext = createContext(new PlayerStore());
+export const DataStoreContext = createContext(new DataStore());

@@ -1,26 +1,29 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 
-import { Button, Grid, Container, Select, Heading } from "theme-ui";
+import { Container, Text, jsx } from "theme-ui";
 import Battle from "./components/Battle";
 import Results from "./components/Results";
-import { PlayerStoreContext } from "./stores";
-import { toJS } from 'mobx';
+import { DataStoreContext } from "./stores";
 
 export interface AppProps {}
 
 const App: React.SFC<AppProps> = observer(() => {
-  const playerStore = useContext(PlayerStoreContext);
+  const dataStore = useContext(DataStoreContext);
 
-  return ( 
-  <Container p={5} bg="muted">
-    { playerStore.pokemons.length >1 ? (
-    <Results />
-  ) : (
-    <Battle />
-  )}
-  </Container>
-  )
+  return (
+    <Container
+      p={5}
+      bg="muted"
+      sx={{
+        height: "100%",
+        minHeight: "100vh",
+      }}
+    >
+      {dataStore.pokemons.length > 1 ? <Results /> : <Battle />}
+      {dataStore.error && <Text>{dataStore.error}</Text>}
+    </Container>
+  );
 });
 
 export default App;

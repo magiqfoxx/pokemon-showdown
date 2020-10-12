@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
-import { Container, Heading, Flex, Text, Grid, jsx } from "theme-ui";
+import { Container, Heading, Text, Grid, jsx } from "theme-ui";
 
-import { Pokemon } from "../stores/PlayerStore";
-import { PlayerStoreContext } from "../stores";
+import { Pokemon } from "../stores/DataStore";
+import { DataStoreContext } from "../stores";
 
 export interface PokemonCardProps {
   pokemonNo: number;
 }
 
 const PokemonCard: React.SFC<PokemonCardProps> = ({ pokemonNo }) => {
-  const playerStore: any = useContext(PlayerStoreContext);
+  const playerStore: any = useContext(DataStoreContext);
   const {
     name,
     img,
@@ -21,28 +21,36 @@ const PokemonCard: React.SFC<PokemonCardProps> = ({ pokemonNo }) => {
   }: Pokemon = playerStore.pokemons[pokemonNo];
 
   return (
-    <Container>
+    <Container
+      sx={{
+        padding: "2rem",
+      }}
+    >
       <Heading>{name}</Heading>
       <img src={img} alt={name} />
-      <Text variant='caps'>Base experience: {base_experience}</Text>
-      <Text variant='caps'>Moves:</Text>
-        {moves.map((move) => {
-          return <span>{`${move}, `}</span>;
-        })}
-      <Text variant='caps'>Types:</Text>
-        {types.map((type) => {
-          return <span>{`${type}, `}</span>;
-        })}
-      <Text variant='caps'>Weight: {weight}</Text>
+      <Text variant="caps">Base experience: {base_experience}</Text>
+      <Text variant="caps">Moves:</Text>
+      {moves.map((move, i) => {
+        return <span key={i}>{`${move}, `}</span>;
+      })}
+      <Text variant="caps">Types:</Text>
+      {types.map((type, i) => {
+        return <span key={i}>{`${type}, `}</span>;
+      })}
+      <Text variant="caps">Weight: {weight}</Text>
       <div>
-        <Heading as="h2" sx={{my:3}}>Stats</Heading>
-        {stats.map((stat) => {
+        <Heading as="h2" sx={{ my: 3 }}>
+          Stats
+        </Heading>
+        {stats.map((stat, i) => {
           return (
-            <>
-              <Text variant='caps'>{stat.name}</Text>
-              <Grid gap={2} columns={[ 2, 2 ]}><span>base stat: {stat.base_stat}</span>
-              <span>effort: {stat.effort}</span></Grid>
-            </>
+            <div key={i}>
+              <Text variant="caps">{stat.name}</Text>
+              <Grid gap={2} columns={[2, 2]}>
+                <span>base stat: {stat.base_stat}</span>
+                <span>effort: {stat.effort}</span>
+              </Grid>
+            </div>
           );
         })}
       </div>

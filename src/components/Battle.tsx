@@ -1,60 +1,59 @@
 import React, { useContext } from "react";
 
-import { Button, Grid, Container, Select, Heading } from "theme-ui";
+import { Button, Grid, Select, Heading, Container, Text, jsx } from "theme-ui";
 import { observer } from "mobx-react-lite";
-import {isObservable} from "mobx"
+import { toJS } from "mobx";
 
-import { PlayerStoreContext } from "../stores";
+import { DataStoreContext } from "../stores";
 import pokemons from "../assets/pokemon";
 import { getResults } from "./helpers";
 
 export interface BattleProps {}
 
 const Battle: React.SFC<BattleProps> = observer(() => {
-  const playerStore = useContext(PlayerStoreContext);
+  const dataStore = useContext(DataStoreContext);
   return (
-      <Grid>
-        <Heading>Player 1</Heading>
-        <Select
-          id="player1"
-          onChange={(e) => playerStore.setPlayer1(e.target.value)}
-        >
-          {pokemons.map((pokemon) => {
-            return (
-              <option
-                key={pokemon}
-                value={pokemon}
-                selected={playerStore.player1 === pokemon}
-              >
-                {pokemon}
-              </option>
-            );
-          })}
-        </Select>
-        <Heading>Player 2</Heading>
-        <Select
-          id="player2"
-          onChange={(e) => (playerStore.setPlayer2(e.target.value))}
-        >
-          {pokemons.map((pokemon) => {
-            return (
-              <option
-                key={pokemon}
-                value={pokemon}
-                selected={playerStore.player2 === pokemon}
-              >
-                {pokemon}
-              </option>
-            );
-          })}
-        </Select>
-        <Button
-          onClick={() => getResults(playerStore)}
-        >
-          Fight!
-        </Button>
+    <Container sx={{ display: "grid", gridGap: "2rem" }}>
+      <Heading as="h1" sx={{ textAlign: "center" }}>
+        Pokemon Showdown
+      </Heading>
+      <Grid columns={"2fr auto 2fr"}>
+        <div>
+          <Heading>Red team</Heading>
+          <Select id="red" onChange={(e) => dataStore.setRed(e.target.value)}>
+            {pokemons.map((pokemon) => {
+              return (
+                <option
+                  key={pokemon}
+                  value={pokemon}
+                  selected={dataStore.red === pokemon}
+                >
+                  {pokemon}
+                </option>
+              );
+            })}
+          </Select>
+        </div>
+        <Text sx={{ margin: "auto" }}>vs</Text>
+        <div>
+          <Heading>Blue team</Heading>
+          <Select id="blue" onChange={(e) => dataStore.setBlue(e.target.value)}>
+            {pokemons.map((pokemon) => {
+              return (
+                <option
+                  key={pokemon}
+                  value={pokemon}
+                  selected={dataStore.blue === pokemon}
+                >
+                  {pokemon}
+                </option>
+              );
+            })}
+          </Select>
+        </div>
       </Grid>
-
+      <Button onClick={() => getResults(dataStore)}>Fight!</Button>
+    </Container>
   );
 });
 
