@@ -14,7 +14,7 @@ const App: React.SFC<AppProps> = observer(() => {
 
   return ( 
   <Container p={5} bg="muted">
-    { playerStore.pokemon1 && playerStore.pokemon2 ? (
+    { playerStore.pokemons.length >1 ? (
     <Results />
   ) : (
     <Battle />

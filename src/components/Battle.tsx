@@ -53,8 +53,6 @@ const Battle: React.SFC<BattleProps> = observer(() => {
         >
           Fight!
         </Button>
-        <button onClick={()=> playerStore.setPlayer1("charmander")}>Choose charmander for player1</button>
-        <button onClick={()=> console.log(playerStore, isObservable(playerStore.player1))}>show store</button>
       </Grid>
 
   );

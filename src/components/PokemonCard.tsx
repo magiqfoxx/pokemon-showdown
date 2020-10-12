@@ -5,7 +5,7 @@ import { Pokemon } from "../stores/PlayerStore";
 import { PlayerStoreContext } from "../stores";
 
 export interface PokemonCardProps {
-  pokemonNo: string;
+  pokemonNo: number;
 }
 
 const PokemonCard: React.SFC<PokemonCardProps> = ({ pokemonNo }) => {
@@ -18,7 +18,7 @@ const PokemonCard: React.SFC<PokemonCardProps> = ({ pokemonNo }) => {
     stats,
     types,
     weight,
-  }: Pokemon = playerStore[pokemonNo];
+  }: Pokemon = playerStore.pokemons[pokemonNo];
 
   return (
     <Container>

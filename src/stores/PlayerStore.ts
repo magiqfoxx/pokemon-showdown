@@ -21,8 +21,6 @@ export interface Pokemon {
 export class PlayerStore {
   @observable player1: string = "bulbasaur";
   @observable player2: string = "ivysaur";
-  @observable pokemon1: Pokemon | undefined = undefined;
-  @observable pokemon2: Pokemon | undefined = undefined;
   @observable pokemons: Array<Pokemon> | [] = [];
   @observable winner: string = "";
 
@@ -30,7 +28,6 @@ export class PlayerStore {
   constructor() {
         makeObservable(this)
   }
-
 
   @action
   setPlayer1 = (player1: string) => {
@@ -42,17 +39,12 @@ export class PlayerStore {
     this.player2 = player2;
   };
 
-  @action
-  setPokemon1 = (pokemon1: Pokemon) => {
-    this.pokemon1 = pokemon1;
-  };
-
-  @action
-  setPokemon2 = (pokemon2: Pokemon) => {
-    this.pokemon2 = pokemon2;
-  };
     @action
   setPokemons = (pokemon: Pokemon) => {
-    this.pokemons.push(pokemon);
+    this.pokemons = [...this.pokemons, pokemon];
+  };
+  @action
+  setWinner = (pokemon: string) => {
+    this.winner = pokemon;
   };
 }
