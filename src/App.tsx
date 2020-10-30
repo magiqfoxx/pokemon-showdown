@@ -1,17 +1,39 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
 
 import { Container, Text, jsx } from "theme-ui";
 import Battle from "./components/Battle";
 import Results from "./components/Results";
-import { DataStoreContext } from "./stores";
+import {useWinner} from "./hooks/useWinner";
 
-export interface AppProps {}
+import Loading from "./components/Loading";
+
+//export const PokemonContext = React.createContext({red:{name:"", data:{}}, blue:{ name:"",data:{}}});
+export const StateContext = React.createContext({
+  redName: "",
+  redData: {},
+  setRedName: (name:string) => {},
+  setRedData: (name:string) => {},
+  blueName: "",
+  blueData: {},
+  setBlueName: (name:string) => {},
+  setBlueData: (name:string) => {}
+});
+export interface AppProps {
+}
 
 const App: React.SFC<AppProps> = observer(() => {
-  const dataStore = useContext(DataStoreContext);
+
+  const [redName, setRedName] = useState("");
+  const [blueName, setBlueName] = useState("");
+  const [redData, setRedData] = useState("");
+  const [blueData, setBlueData] = useState("");
+  const value ={redName, blueName, redData, blueData, setRedName, setBlueName, setRedData, setBlueData};
+  const {loading, error, results} = useWinner(value);
+
 
   return (
+    <StateContext.Provider value={{redName, blueName, setRedName, setBlueName, redData, blueData, setRedData, setBlueData }}>
     <Container
       p={5}
       bg="muted"
@@ -20,9 +42,12 @@ const App: React.SFC<AppProps> = observer(() => {
         minHeight: "100vh",
       }}
     >
-      {dataStore.pokemons.length > 1 ? <Results /> : <Battle />}
-      {dataStore.error && <Text>{dataStore.error}</Text>}
+      {loading && <Loading />}
+      {results ? <Results winner={results} /> : <Battle />}
+      {error && <span sx={{color:"red"}}>{error}</span>}
+      {error && <Text>There was an error</Text>}
     </Container>
+    </StateContext.Provider>
   );
 });
 

@@ -9,8 +9,8 @@ interface Stat {
 }
 
 export interface Pokemon {
-  name?: string;
-  img?: string;
+  name: string;
+  img: string;
   base_experience: number;
   moves: Array<string>;
   stats: Array<Stat>;

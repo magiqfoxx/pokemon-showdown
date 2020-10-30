@@ -1,15 +1,16 @@
-import React, { useContext, useEffect } from "react";
+import React, {useEffect, useContext } from "react";
 import { Flex, Heading, Container, jsx } from "theme-ui";
-import { observer } from "mobx-react-lite";
 
 import PokemonCard from "./PokemonCard";
-import { DataStoreContext } from "../stores";
+import {StateContext} from "../App";
 
-export interface ResultsProps {}
+export interface ResultsProps {
+  winner: string,
+}
 
-const Results: React.SFC<ResultsProps> = observer(() => {
-  const dataStore = useContext(DataStoreContext);
+const Results: React.SFC<ResultsProps> = ({winner}) => {
   const audio = new Audio("./battle.mp3");
+  const { redData, blueData } = useContext(StateContext);
 
   useEffect(() => {
     audio.play();
@@ -17,7 +18,7 @@ const Results: React.SFC<ResultsProps> = observer(() => {
   return (
     <>
       <Heading sx={{ textAlign: "center", color: "#673AB7" }}>
-        The winner is: {dataStore.winner}
+        The winner is: {winner}
       </Heading>
       <Container
         sx={{
@@ -48,11 +49,11 @@ const Results: React.SFC<ResultsProps> = observer(() => {
           zIndex: "2",
         }}
       >
-        <PokemonCard pokemonNo={0} />
-        <PokemonCard pokemonNo={1} />
+        <PokemonCard pokemon={redData} />
+        <PokemonCard pokemon={blueData} />
       </Flex>
     </>
   );
-});
+};
 
 export default Results;
