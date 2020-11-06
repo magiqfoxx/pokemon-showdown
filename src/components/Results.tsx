@@ -3,6 +3,7 @@ import { Flex, Heading, Container, jsx } from "theme-ui";
 
 import PokemonCard from "./PokemonCard";
 import {StateContext} from "../App";
+import Offline from "./Offline";
 
 export interface ResultsProps {
   winner: string,
@@ -13,7 +14,7 @@ const Results: React.SFC<ResultsProps> = ({winner}) => {
   const { redData, blueData } = useContext(StateContext);
 
   useEffect(() => {
-    audio.play();
+    //audio.play();
   }, [audio]);
   return (
     <>
@@ -49,8 +50,8 @@ const Results: React.SFC<ResultsProps> = ({winner}) => {
           zIndex: "2",
         }}
       >
-        <PokemonCard pokemon={redData} />
-        <PokemonCard pokemon={blueData} />
+        {redData === "offline" ? <Offline/> : <PokemonCard pokemon={redData} />}
+        {blueData === "offline" ? <Offline/> : <PokemonCard pokemon={blueData} />}
       </Flex>
     </>
   );

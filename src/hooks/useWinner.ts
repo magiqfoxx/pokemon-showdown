@@ -25,11 +25,11 @@ export const useWinner = (value:any
       const names = [redName, blueName];
       const promises = names.map(pokemon=> getPokemon(pokemon).then(response=>response.json()))
       try {
-        const results = await Promise.all(promises);
-        setRedData(normalizePokemon(results[0]));
-        setBlueData(normalizePokemon(results[1]));
-        const winner = getWinner(normalizePokemon(results[0]), normalizePokemon(results[1]));
-        setResults(winner);
+          const results = await Promise.all(promises);
+          setRedData(normalizePokemon(results[0]));
+          setBlueData(normalizePokemon(results[1]));
+          const winner = getWinner(normalizePokemon(results[0]), normalizePokemon(results[1]));
+          setResults(winner);
       } catch (error) {
         setError(true);
       } finally {

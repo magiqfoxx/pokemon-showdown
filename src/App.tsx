@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 
 import { Container, Text, jsx } from "theme-ui";
 import Battle from "./components/Battle";
 import Results from "./components/Results";
+import Offline from "./components/Offline";
 import {useWinner} from "./hooks/useWinner";
 
 import Loading from "./components/Loading";
@@ -28,8 +29,20 @@ const App: React.SFC<AppProps> = observer(() => {
   const [blueName, setBlueName] = useState("");
   const [redData, setRedData] = useState("");
   const [blueData, setBlueData] = useState("");
+  const [offline, setOffline] = useState(!navigator.onLine);
   const value ={redName, blueName, redData, blueData, setRedName, setBlueName, setRedData, setBlueData};
   const {loading, error, results} = useWinner(value);
+
+  useEffect(()=>{
+    const onOnline = ()=> setOffline(false);
+    window.addEventListener('online', onOnline);
+    const onOffline = ()=> setOffline(true);
+    window.addEventListener('offline', onOffline);
+    return ()=>{
+      window.removeEventListener('online', onOnline);
+      window.removeEventListener('offline', onOffline);
+    }
+  },[])
 
 
   return (
@@ -43,7 +56,8 @@ const App: React.SFC<AppProps> = observer(() => {
       }}
     >
       {loading && <Loading />}
-      {results ? <Results winner={results} /> : <Battle />}
+      {offline && <Offline/>}
+      {results ?<Results winner={results} />: <Battle />}
       {error && <span sx={{color:"red"}}>{error}</span>}
       {error && <Text>There was an error</Text>}
     </Container>
